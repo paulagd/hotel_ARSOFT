@@ -1,0 +1,176 @@
+FORMAT: 1A
+HOST: https://api.arsofthotel.tk/
+
+# hotelARQSOFT
+
+Polls is a simple API allowing consumers to view polls and vote in them.
+
+## Reservation [/reservation/{idReservation}]
+
++ Parameters
+
+    + idReservation - Reservation ID or DNI of the client.
+    
+
+### Get Reservation info [GET]
+Return reservation info and client info.
+
++ Response 200 (application/json)
+
+        {
+            reservation: {
+                            "ID": "ID",
+                            "ID_CLIENT": "",
+                            "CHECKING": "",
+                            "CHECKOUT": "",
+                            "...": ""
+                        },
+            client:     {
+                            "ID": "ID",
+                            "NAME": "",
+                            "SURNAME": "",
+                            "DNI": "",
+                            "...": ""
+                        }
+        }
+
+        
++ Response 404 (text/plain)
+
+        Reservation not found.
+
+ 
+
+### Update Reservation [PUT]
+Updates the fields of the reservation table and returns the entire reservation object.
+
++ Request (application/json)
+
+        {
+            "DEBT": "",
+            "STATUS": "",
+            "...": ""
+        }
+
++ Response 200 (application/json)
+
+
+## Room [/room/{?idRoom}]
+
+  
+### Get Empty Rooms[GET]
+GET the different empty rooms.
+        
++ Response 201 (application/json)
+
+        {   { "ID":"ID",
+              "SIZE": "",
+              "BUSY": False
+            },
+            { "ID":"ID",
+              "SIZE": "",
+              "BUSY": False
+            },
+            {
+              "...": ""
+            }
+        }
+        
++ Response 404 (text/plain)
+
+        The system was unable to retrieve ROOMS.
+
+### Assign Room [POST]
+Assigns a room to a reservation and marks it as a busy room.
+
++ Request (application/json)
+
+        {
+            "IDROOM": "ID",
+            "IDRESERVATION": "ID"
+        }
+        
++ Response 201 (text/plain)
+        
++ Response 404 (text/plain)
+
+        The system was unable to assign the room.
+
+### Free a Room [PUT]
+Frees a room.
+
++ Parameters
+
+    + idRoom - id of the room to free.
+
++ Request (application/json)
+
+        {
+            "BUSY": False
+        }
+        
++ Response 201 (text/plain)
+        
++ Response 404 (text/plain)
+
+        The system was unable to free the room.
+        
+
+
+## Host [/host/{?DNI}]
+
+### Get Host By DNI[GET]
+GET the info of the HOST in it exists in the DB, else return null.
+
++ Parameters
+
+    + DNI - DNI of the HOST
+        
++ Response 201 (application/json)
+
+        {   "ID": "ID",
+            "NAME": "",
+            "DNI": "",
+            "BIRTHDATE": ""
+        }
+        
++ Response 404 (text/plain)
+
+        The system was unable to retrieve the HOST.
+        
+### Add Host [POST]
+Post the info of the new HOST in the DB.
+
++ Request (application/json)
+
+        {
+            "NAME": "",
+            "DNI": "",
+            "BIRTHDATE": ""
+        }
+        
++ Response 201 (text/plain)
+        
++ Response 404 (text/plain)
+
+        The system was unable to add the HOST.
+    
+    
+    
+## Assign Host [/assignHost/{idReservation}]
+
+### Assign Host/s To Reservation[POST]
+GET the info of the HOST in it exists in the DB, else return null.
+
++ Parameters
+
+    + idReservation - id of the reservation.
+        
++ Response 201 (application/json)
+
+        {   "host_ides": ["id1","id2", ...]
+        }
+        
++ Response 404 (text/plain)
+
+        The system was unable to assign HOST/S.
