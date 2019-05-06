@@ -2,18 +2,13 @@ import express from 'express';
 import logger from 'morgan';
 import app from './init'
 
+import * as booking from './routes/booking';
+
 import {config} from 'dotenv';
 
 const env = config().parsed;
 
-app.use('/bookings', (req, res) => {
-    res.status(200).send({
-        bookings: [
-            {id: 1},
-            {id: 2}
-        ]
-    })
-});
+app.use('/bookings', booking.bookingsController);
 
 app.use(logger('short', {
     skip: (req, res) => res.statusCode < 400
