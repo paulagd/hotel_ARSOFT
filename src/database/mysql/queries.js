@@ -1,8 +1,17 @@
 import db from './db';
 
-export const hola = () => {
-    db.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
+export const getBooking = (id, callback) => {
+    db.query(`SELECT * from RESERVATION where id = ${id}`, (error, results, fields) => {
         if (error) throw error;
-        console.log('The solution is: ', results[0].solution);
+        else
+          callback(results);
+    });
+};
+
+export const getBookings = (callback) => {
+    db.query('SELECT * from RESERVATION', (error, results, fields) => {
+        if (error) throw error;
+        else
+          callback(results);
     });
 };
