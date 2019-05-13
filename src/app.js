@@ -3,12 +3,14 @@ import logger from 'morgan';
 import app from './init'
 
 import * as  booking from './routes/booking';
+import * as  client from './routes/client';
 
 import {config} from 'dotenv';
 
 const env = config().parsed;
 
 app.use('/bookings', booking.bookingsController);
+app.use('/client', client.clientController);
 
 app.use(logger('short', {
     skip: (req, res) => res.statusCode < 400

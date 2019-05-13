@@ -13,6 +13,9 @@ export const getBookings = (req, res) => {
 
 export const getBooking = (req, res) => {
     SQL_REQUEST.getBooking(req.params.id, (entity)=>{
-      res.status(200).send(entity);
+      console.log(entity);
+      SQL_REQUEST.getClient(entity.IDCLIENT, (entityClient)=>{
+          res.status(200).send({reservation: entity, client: entityClient});
+      });
     });
 };
