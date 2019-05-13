@@ -2,7 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import app from './init'
 
-import * as booking from './routes/booking';
+import * as  booking from './routes/booking';
 
 import {config} from 'dotenv';
 

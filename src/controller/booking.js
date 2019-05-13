@@ -1,5 +1,10 @@
 import  * as SQL_REQUEST from '../database/mysql/queries'
 
+/***
+ *
+ * @param req
+ * @param res
+ */
 export const getBookings = (req, res) => {
       SQL_REQUEST.getBookings((entity)=>{
         res.status(200).send(entity);
