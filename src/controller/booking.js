@@ -6,16 +6,46 @@ import  * as SQL_REQUEST from '../database/mysql/queries'
  * @param res
  */
 export const getBookings = (req, res) => {
-      SQL_REQUEST.getBookings((entity)=>{
+      SQL_REQUEST.getBookings((error, entity)=>{
         res.status(200).send(entity);
       });
 };
 
 export const getBooking = (req, res) => {
-    SQL_REQUEST.getBooking(req.params.id, (entity)=>{
-      console.log(entity);
-      SQL_REQUEST.getClient(entity.IDCLIENT, (entityClient)=>{
+    SQL_REQUEST.getBooking(req.params.id, (error, entity)=>{
+      SQL_REQUEST.getClient(entity.IDCLIENT, (error, entityClient)=>{
           res.status(200).send({reservation: entity, client: entityClient});
       });
+    });
+};
+
+export const addBooking = (req, res) => {
+    SQL_REQUEST.addBooking(req.body, (error, entity)=>{
+        res.status(200).send(entity);
+    });
+};
+
+export const updateBooking = (req, res) => {
+    SQL_REQUEST.updateBooking(req.params.id, req.body, (error, entity)=>{
+        res.status(200).send(entity);
+    });
+};
+
+export const addHost2Reservation = (req, res) => {
+    //body = [ 1, 2 ]
+
+    SQL_REQUEST.addHost2Reservation(req.params.id, req.body, error => {
+        // res.status(err.status || 500);
+        // res.json({
+        //     message: err.message,
+        //     error: err
+        // });
+        console.log('ERRORRRR-----',error);
+        if (error){
+            res.sendStatus(500);
+            return;
+        }
+        else
+            res.sendStatus(204);
     });
 };

@@ -4,19 +4,22 @@ import app from './init'
 
 import * as  booking from './routes/booking';
 import * as  client from './routes/client';
+import * as  host from './routes/host';
 
 import {config} from 'dotenv';
 
 const env = config().parsed;
 
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+
 app.use('/bookings', booking.bookingsController);
-app.use('/client', client.clientController);
+app.use('/clients', client.clientController);
+app.use('/hosts', host.hostController);
 
 app.use(logger('short', {
     skip: (req, res) => res.statusCode < 400
 }));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
 
 app.use((req, res) => {
     res.status(404);
