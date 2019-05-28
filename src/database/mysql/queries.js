@@ -1,5 +1,5 @@
 import db from './db';
-import {forEachOf} from "async";
+import {each} from "async";
 
 //BOOKING
 export const getBooking = (id, callback) => {
@@ -13,7 +13,7 @@ export const getBooking = (id, callback) => {
             //             //     });
             callback(true, null);
         } else {
-            callback( false, results[0]);
+            callback(false, results[0]);
         }
     });
 };
@@ -22,7 +22,7 @@ export const getBookings = (callback) => {
     db.query('SELECT * from RESERVATION', (error, results, fields) => {
         if (error) callback(true, null);
         else
-          callback(false, results);
+            callback(false, results);
     });
 };
 
@@ -30,8 +30,7 @@ export const addBooking = (booking, callback) => {
     db.query(`INSERT INTO RESERVATION SET ?`, booking, (error, results, fields) => {
         if (error) {
             callback(true);
-        }
-        else
+        } else
             callback(false, null);
     });
 };
@@ -40,39 +39,26 @@ export const updateBooking = (id, booking, callback) => {
     db.query(`UPDATE RESERVATION SET ? WHERE ID = ${id}`, booking, (error, results, fields) => {
         if (error) {
             callback(true);
-        }
-        else
+        } else
             callback(false, null);
     });
 };
 
 export const addHost2Reservation = (id, body, callback) => {
-    // forEachOf
-    try {
-        forEachOf(body, (id_host, _, cb) => {
-            // var sql = `INSERT INTO RESERVATION-HOST (IDRESERVATION, IDHOST) VALUES ('${id}', '${id_host}');`
-            var sql = `INSERT INTO reservation-host (IDRESERVATION, IDHOST) VALUES (?) `;
-            var values = [`${id}`, `${id_host}`]
-            // var sql = `INSERT INTO RESERVATION-HOST (IDRESERVATION, IDHOST) VALUES ('${id}', '${id_host}')`;
-            db.query(sql, [values], (err, results) => {
-                if (err) {
-                    console.log('map',err.sqlMessage);
-                    return cb(true, err);
-                }
-                else
-                    return cb(false, null);
-            });
-        }, err => {
-            if (err){
-                console.log('error callback,', err);
-                callback(true);
-            }
-            else
-                callback(false, null);
+
+    each(body, (id_host, cb) => {
+        db.query(`INSERT INTO RESERVATION_HOST (IDRESERVATION, IDHOST) VALUES (${id}, ${id_host}) `, null, (err, results) => {
+            if (err) {
+                cb(err);
+            } else
+                cb();
         });
-    } catch (e) {
-        return callback(e);
-    }
+    }, err => {
+        if (err)
+            callback(true);
+        else
+            callback(false);
+    });
 };
 
 // CLIENT
@@ -82,7 +68,7 @@ export const getClient = (id, callback) => {
     db.query(`SELECT * from CLIENT where ID = ${id}`, (error, results, fields) => {
         if (error) callback(true, null);
         else
-          callback( false, results[0]);
+            callback(false, results[0]);
     });
 };
 
@@ -92,7 +78,7 @@ export const getClients = (callback) => {
     db.query('SELECT * from CLIENT', (error, results, fields) => {
         if (error) callback(true, null);
         else
-          callback(false, results);
+            callback(false, results);
     });
 };
 
@@ -100,8 +86,7 @@ export const addClient = (client, callback) => {
     db.query(`INSERT INTO CLIENT SET ?`, client, (error, results, fields) => {
         if (error) {
             callback(true);
-        }
-        else
+        } else
             callback(false, null);
     });
 };
@@ -110,8 +95,7 @@ export const updateClient = (id, client, callback) => {
     db.query(`UPDATE CLIENT SET ? WHERE ID = ${id}`, client, (error, results, fields) => {
         if (error) {
             callback(true);
-        }
-        else
+        } else
             callback(false, null);
     });
 };
@@ -121,7 +105,7 @@ export const getHosts = (callback) => {
     db.query('SELECT * from HOST', (error, results, fields) => {
         if (error) callback(true, null);
         else
-          callback(false, results);
+            callback(false, results);
     });
 };
 
@@ -136,22 +120,20 @@ export const getHost = (id, callback) => {
 export const updateHost = (id, host, callback) => {
     let date = new Date(host.BIRTHDATE);
     db.query(`UPDATE HOST SET NAME = '${host.NAME}', DNI = '${host.DNI}',
-              BIRTHDATE = '${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}' where (ID = ${id})`,
-             (error, results, fields) => {
-        if (error) {
-            callback(true);
-        }
-        else
-            callback(false, null);
-    });
+              BIRTHDATE = '${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}' where (ID = ${id})`,
+        (error, results, fields) => {
+            if (error) {
+                callback(true);
+            } else
+                callback(false, null);
+        });
 };
 
 export const addHost = (host, callback) => {
     db.query(`INSERT INTO HOST SET ?`, host, (error, results, fields) => {
         if (error) {
             callback(true);
-        }
-        else
+        } else
             callback(false, null);
     });
 };

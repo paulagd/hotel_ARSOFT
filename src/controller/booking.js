@@ -32,19 +32,10 @@ export const updateBooking = (req, res) => {
 };
 
 export const addHost2Reservation = (req, res) => {
-    //body = [ 1, 2 ]
 
     SQL_REQUEST.addHost2Reservation(req.params.id, req.body, error => {
-        // res.status(err.status || 500);
-        // res.json({
-        //     message: err.message,
-        //     error: err
-        // });
-        console.log('ERRORRRR-----',error);
-        if (error){
+        if (error)
             res.sendStatus(500);
-            return;
-        }
         else
             res.sendStatus(204);
     });
