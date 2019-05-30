@@ -13,9 +13,11 @@ export const getBookings = (req, res) => {
 
 export const getBooking = (req, res) => {
     SQL_REQUEST.getBooking(req.params.id, (error, entity)=>{
-      SQL_REQUEST.getClient(entity.IDCLIENT, (error, entityClient)=>{
-          res.status(200).send({reservation: entity, client: entityClient});
-      });
+        entity.length ? SQL_REQUEST.getClient(entity[0].IDCLIENT, (error, entityClient)=>{
+            res.status(200).send({reservation: entity, client: entityClient});
+        }) : SQL_REQUEST.getClient(entity.IDCLIENT, (error, entityClient)=>{
+              res.status(200).send({reservation: entity, client: entityClient});
+          });
     });
 };
 

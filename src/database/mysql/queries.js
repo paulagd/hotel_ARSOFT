@@ -4,16 +4,19 @@ import {each} from "async";
 //BOOKING
 export const getBooking = (id, callback) => {
     db.query(`SELECT * from RESERVATION where ID = ${id}`, (error, results, fields) => {
-        console.log(error);
         if (error) {
-            // db.query(`SELECT * from RESERVATION where IDCLIENT = (SELECT id from CLIENT where DNI = '${id}')`,
-            //             //     (error, results, fields) => {
-            //             //         if (error) throw error;
-            //             //         callback(false, results[0]);
-            //             //     });
             callback(true, null);
         } else {
-            callback(false, results[0]);
+            if( results.length == 0 ){
+                db.query(`SELECT * from RESERVATION where IDCLIENT = (SELECT id from CLIENT where DNI = '${id}')`,
+                    (error, results, fields) => {
+                        if (error) throw error;
+                        callback(false, results);
+                    });
+            } else {
+                callback(false, results[0]);
+            }
+
         }
     });
 };
@@ -111,9 +114,15 @@ export const getHosts = (callback) => {
 
 export const getHost = (id, callback) => {
     db.query(`SELECT * from HOST where ID = ${id}`, (error, results, fields) => {
-        if (error) callback(true);
-        else
+        if (error) {
+            db.query(`SELECT * from HOST where DNI = '${id}'`,
+                (error, results, fields) => {
+                    if (error) callback(true, null);
+                    callback(false, results[0]);
+                });
+        } else {
             callback(false, results[0]);
+        }
     });
 };
 
