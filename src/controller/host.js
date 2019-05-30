@@ -7,13 +7,19 @@ import  * as SQL_REQUEST from '../database/mysql/queries'
  */
 export const getHosts = (req, res) => {
     SQL_REQUEST.getHosts((error, entity)=>{
-        res.status(200).send(entity);
+        if (error)
+            res.sendStatus(500);
+        else
+            res.status(200).send(entity);
     });
 };
 
 export const getHost = (req, res) => {
     SQL_REQUEST.getHost(req.params.id, (error, entityHost)=>{
-        res.status(200).send(entityHost);
+        if (error)
+            res.sendStatus(404);
+        else
+            res.status(200).send(entityHost);
     });
 };
 
@@ -22,8 +28,10 @@ export const updateHost = (req, res) => {
     SQL_REQUEST.updateHost(req.params.id, req.body , (error, entityHost)=>{
         if (error)
             res.sendStatus(500);
-        else
+        else if(entityHost > 0)
             res.sendStatus(204);
+        else
+            res.sendStatus(404);
     });
 };
 

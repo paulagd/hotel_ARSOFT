@@ -7,23 +7,35 @@ import  * as SQL_REQUEST from '../database/mysql/queries'
  */
 export const getBookings = (req, res) => {
       SQL_REQUEST.getBookings((error, entity)=>{
-        res.status(200).send(entity);
+          if (error)
+              res.sendStatus(500);
+          else
+              res.status(200).send(entity);
       });
 };
 
 export const getBooking = (req, res) => {
     SQL_REQUEST.getBooking(req.params.id, (error, entity)=>{
         entity.length ? SQL_REQUEST.getClient(entity[0].IDCLIENT, (error, entityClient)=>{
-            res.status(200).send({reservation: entity, client: entityClient});
+            if (error)
+                res.sendStatus(404);
+            else
+                res.status(200).send({reservation: entity, client: entityClient});
         }) : SQL_REQUEST.getClient(entity.IDCLIENT, (error, entityClient)=>{
-              res.status(200).send({reservation: entity, client: entityClient});
+            if (error)
+                res.sendStatus(404);
+            else
+                res.status(200).send({reservation: entity, client: entityClient});
           });
     });
 };
 
 export const addBooking = (req, res) => {
     SQL_REQUEST.addBooking(req.body, (error, entity)=>{
-        res.status(200).send(entity);
+        if (error)
+            res.sendStatus(500);
+        else
+            res.sendStatus(204);
     });
 };
 

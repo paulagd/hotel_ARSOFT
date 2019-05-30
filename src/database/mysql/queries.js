@@ -34,7 +34,7 @@ export const addBooking = (booking, callback) => {
         if (error) {
             callback(true);
         } else
-            callback(false, null);
+            callback(false, results.affectedRows);
     });
 };
 
@@ -116,7 +116,7 @@ export const updateClient = (id, client, callback) => {
         if (error) {
             callback(true);
         } else
-            callback(false, null);
+            callback(false, results.affectedRows);
     });
 };
 
@@ -151,7 +151,7 @@ export const updateHost = (id, host, callback) => {
             if (error) {
                 callback(true);
             } else
-                callback(false, null);
+                callback(false, results.affectedRows);
         });
 };
 
@@ -198,6 +198,6 @@ export const updateRoom = (id, room, callback) => {
         if (error) {
             callback(true);
         } else
-            callback(false, null);
+            callback(false, results.affectedRows);
     });
 };
