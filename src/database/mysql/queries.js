@@ -43,7 +43,7 @@ export const updateBooking = (id, booking, callback) => {
         if (error) {
             callback(true);
         } else
-            callback(false, null);
+            callback(false, results.affectedRows);
     });
 };
 
@@ -51,6 +51,23 @@ export const addHost2Reservation = (id, body, callback) => {
 
     each(body, (id_host, cb) => {
         db.query(`INSERT INTO RESERVATION_HOST (IDRESERVATION, IDHOST) VALUES (${id}, ${id_host}) `, null, (err, results) => {
+            if (err) {
+                cb(err);
+            } else
+                cb();
+        });
+    }, err => {
+        if (err)
+            callback(true);
+        else
+            callback(false);
+    });
+};
+
+export const assignRoom2Reservation = (id, body, callback) => {
+
+    each(body, (id_room, cb) => {
+        db.query(`INSERT INTO RESERVATION_ROOM (IDRESERVATION, IDROOM) VALUES (${id}, ${id_room}) `, null, (err, results) => {
             if (err) {
                 cb(err);
             } else
