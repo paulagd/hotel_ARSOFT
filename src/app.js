@@ -5,6 +5,7 @@ import app from './init'
 import * as  booking from './routes/booking';
 import * as  client from './routes/client';
 import * as  host from './routes/host';
+import * as  room from './routes/room';
 
 import {config} from 'dotenv';
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({extended: false}));
 app.use('/bookings', booking.bookingsController);
 app.use('/clients', client.clientController);
 app.use('/hosts', host.hostController);
+app.use('/rooms', room.roomController);
 
 app.use(logger('short', {
     skip: (req, res) => res.statusCode < 400

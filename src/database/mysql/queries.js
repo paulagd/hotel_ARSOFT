@@ -146,3 +146,44 @@ export const addHost = (host, callback) => {
             callback(false, null);
     });
 };
+
+
+// ROOMS
+
+export const getAllRooms = (callback) => {
+    db.query('SELECT * from ROOM', (error, results, fields) => {
+        if (error) callback(true, null);
+        else
+            callback(false, results);
+    });
+};
+
+export const getFreeRooms = (callback) => {
+    db.query('SELECT * from ROOM where BUSY = 0', (error, results, fields) => {
+        console.log('error', error);
+        console.log('results', results);
+        if (error) callback(true, null);
+        else
+            callback(false, results);
+    });
+};
+
+export const getRoom = (id, callback) => {
+    db.query(`SELECT * from ROOM where ID = ${id}`, (error, results, fields) => {
+        if (error) {
+            callback(true, null);
+        } else {
+            callback(false, results[0]);
+        }
+    });
+};
+
+export const updateRoom = (id, callback) => {
+    // db.query(`SELECT * from ROOM where ID = ${id}`, (error, results, fields) => {
+    //     if (error) {
+    //         callback(true, null);
+    //     } else {
+    //         callback(false, results[0]);
+    //     }
+    // });
+};
