@@ -160,8 +160,6 @@ export const getAllRooms = (callback) => {
 
 export const getFreeRooms = (callback) => {
     db.query('SELECT * from ROOM where BUSY = 0', (error, results, fields) => {
-        console.log('error', error);
-        console.log('results', results);
         if (error) callback(true, null);
         else
             callback(false, results);
@@ -178,12 +176,11 @@ export const getRoom = (id, callback) => {
     });
 };
 
-export const updateRoom = (id, callback) => {
-    // db.query(`SELECT * from ROOM where ID = ${id}`, (error, results, fields) => {
-    //     if (error) {
-    //         callback(true, null);
-    //     } else {
-    //         callback(false, results[0]);
-    //     }
-    // });
+export const updateRoom = (id, room, callback) => {
+    db.query(`UPDATE ROOM SET ? WHERE ID = ${id}`, room, (error, results, fields) => {
+        if (error) {
+            callback(true);
+        } else
+            callback(false, null);
+    });
 };

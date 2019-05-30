@@ -23,7 +23,7 @@ export const getRoom = (req, res) => {
     });
 };
 export const updateRoom = (req, res) => {
-    SQL_REQUEST.updateRoom(req.params.id, (error, entityHost)=>{
+    SQL_REQUEST.updateRoom(req.params.id, req.body,(error, entityHost)=>{
         res.status(200).send(entityHost);
     });
 };
