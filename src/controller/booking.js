@@ -1,4 +1,5 @@
 import  * as SQL_REQUEST from '../database/mysql/queries'
+import { parallel } from "async";
 
 /***
  *
@@ -15,19 +16,40 @@ export const getBookings = (req, res) => {
 };
 
 export const getBooking = (req, res) => {
-    SQL_REQUEST.getBooking(req.params.id, (error, entity)=>{
-        entity.length ? SQL_REQUEST.getClient(entity[0].IDCLIENT, (error, entityClient)=>{
-            if (error)
-                res.sendStatus(404);
-            else
-                res.status(200).send({reservation: entity, client: entityClient});
-        }) : SQL_REQUEST.getClient(entity.IDCLIENT, (error, entityClient)=>{
-            if (error)
-                res.sendStatus(404);
-            else
-                res.status(200).send({reservation: entity, client: entityClient});
-          });
-    });
+        parallel({
+            booking: callback => {
+                SQL_REQUEST.getBooking(req.params.id, (error, entity)=>{
+                    entity.length ? SQL_REQUEST.getClient(entity[0].IDCLIENT, (error, entityClient)=>{
+                        if (error)
+                            callback(true, 404);
+                        else{
+                            callback(null, {reservation: entity, client: entityClient});
+                        }
+                    }) : SQL_REQUEST.getClient(entity.IDCLIENT, (error, entityClient)=>{
+                        if (error)
+                            callback(true, 404);
+                        else{
+                            callback(null, {reservation: entity, client: entityClient});
+                        }
+                    });
+                });
+            },
+            all_hosts: callback =>{
+                SQL_REQUEST.getHostsFromBooking(req.params.id, (error, hostsEntity)=>{
+                    if (error)
+                        callback(true, 404);
+                    else {
+                        callback(null, {hosts: hostsEntity});
+                    }
+                });
+            }
+        }, (err, results) =>{
+            if (err)
+                res.sendStatus(500);
+            else{
+                res.status(200).send(Object.assign(results.booking, results.all_hosts))
+            }
+        });
 };
 
 export const addBooking = (req, res) => {
@@ -67,5 +89,14 @@ export const assignRoom2Reservation = (req, res) => {
             res.sendStatus(500);
         else
             res.sendStatus(204);
+    });
+};
+export const getHostsFromBooking = (req, res) => {
+
+    SQL_REQUEST.getHostsFromBooking(req.params.id, (error, entity) => {
+        if (error)
+            res.sendStatus(500);
+        else
+            res.status(200).send(entity);
     });
 };

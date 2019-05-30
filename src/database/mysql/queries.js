@@ -143,6 +143,17 @@ export const getHost = (id, callback) => {
     });
 };
 
+export const getHostsFromBooking = (id, callback) => {
+    db.query(`SELECT * FROM HOST where ID in (SELECT IDHOST FROM RESERVATION_HOST where IDRESERVATION = ${id})`,
+        (error, results, fields) => {
+        if (error) {
+            callback(true);
+        } else {
+            callback(false, results);
+        }
+    });
+};
+
 export const updateHost = (id, host, callback) => {
     let date = new Date(host.BIRTHDATE);
     db.query(`UPDATE HOST SET NAME = '${host.NAME}', DNI = '${host.DNI}',
