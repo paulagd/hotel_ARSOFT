@@ -6,6 +6,7 @@ import * as  booking from './routes/booking';
 import * as  client from './routes/client';
 import * as  host from './routes/host';
 import * as  room from './routes/room';
+import * as employee from './routes/employee';
 
 import {config} from 'dotenv';
 
@@ -18,6 +19,7 @@ app.use('/bookings', booking.bookingsController);
 app.use('/clients', client.clientController);
 app.use('/hosts', host.hostController);
 app.use('/rooms', room.roomController);
+app.use('/employee', employee.employeeController);
 
 app.use(logger('short', {
     skip: (req, res) => res.statusCode < 400

@@ -1,5 +1,5 @@
 import express from 'express'
-import { getClients, getClient, addClient, updateClient } from "../../controller/client";
+import { getClients, getClient, addClient, updateClient, login} from "../../controller/client";
 
 let router = express.Router();
 
