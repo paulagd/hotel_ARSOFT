@@ -71,7 +71,12 @@ export const assignRoom2Reservation = (id, body, callback) => {
             if (err) {
                 cb(err);
             } else
-                cb();
+                updateRoom(id_room, {'busy' : 1}, (err, results)=>{
+                    if (err)
+                        cb(err);
+                    else
+                        cb();
+                });
         });
     }, err => {
         if (err)
