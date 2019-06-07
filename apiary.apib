@@ -5,33 +5,86 @@ HOST: https://api.arsofthotel.tk/
 
 Polls is a simple API allowing consumers to view polls and vote in them.
 
-## Reservation [/reservation/{idReservation}]
+
+## Reservation [/bookings/{?idReservation}{?addHost}{?assignRoom}{?hosts}]
+
+### Get all Reservations [GET]
+Return all the reservations info.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "ID": 1,
+                "IDCLIENT": 2,
+                "CHECKIN": "2019-03-24T23:00:00.000Z",
+                "CHECKOUT": "2019-03-27T23:00:00.000Z",
+                "IMPORT": 200,
+                "DEBT": 200,
+                "STATUS": "OPEN"
+            },
+            
+            ...
+            
+            {
+                "ID": 2,
+                "IDCLIENT": 2,
+                "CHECKIN": "2019-03-29T23:00:00.000Z",
+                "CHECKOUT": "2019-04-03T22:00:00.000Z",
+                "IMPORT": 200,
+                "DEBT": 200,
+                "STATUS": "OPEN"
+            }
+        ]
+
+        
++ Response 500 (text/plain)
+
+        Internal Server Error
+
+### Get Reservation info [GET]
+Return reservation info as well as the client info and all the hosts info associated to the reservation.
 
 + Parameters
 
     + idReservation - Reservation ID or DNI of the client.
     
-
-### Get Reservation info [GET]
-Return reservation info and client info.
-
 + Response 200 (application/json)
 
         {
-            reservation: {
-                            "ID": "ID",
-                            "ID_CLIENT": "",
-                            "CHECKING": "",
-                            "CHECKOUT": "",
-                            "...": ""
-                        },
-            client:     {
-                            "ID": "ID",
-                            "NAME": "",
-                            "SURNAME": "",
-                            "DNI": "",
-                            "...": ""
-                        }
+            "reservation": {
+                "ID": 1,
+                "IDCLIENT": 2,
+                "CHECKIN": "2019-03-24T23:00:00.000Z",
+                "CHECKOUT": "2019-03-27T23:00:00.000Z",
+                "IMPORT": 200,
+                "DEBT": 200,
+                "STATUS": "OPEN"
+            },
+            "client": {
+                "id": 2,
+                "NAME": "Marina",
+                "SURNAME": "Alonso",
+                "DNI": "44777666W",
+                "MAIL": "marina@alonso.cat",
+                "PHONE": "654789023",
+                "BIRTHDATE": "22/06/1995"
+            },
+            "hosts": [
+                {
+                    "ID": "ID,
+                    "NAME": "nuevo1",
+                    "DNI": "5655675M",
+                    "BIRTHDATE": "1998-01-02T23:00:00.000Z"
+                },
+                    ...
+                {
+                    "ID": 4,
+                    "NAME": "nuevo2",
+                    "DNI": "5655175A",
+                    "BIRTHDATE": "1998-01-02T23:00:00.000Z"
+                }
+            ]
         }
 
         
@@ -39,9 +92,28 @@ Return reservation info and client info.
 
         Reservation not found.
 
- 
+### Update Reservation [POST]
+Updates the fields of the reservation table.
 
-### Update Reservation [PUT]
++ Parameters
+
+    + idReservation - Reservation ID or DNI of the client.
+    
++ Request (application/json)
+
+        {
+            "DEBT": "",
+            "STATUS": "",
+            "...": ""
+        }
+
++ Response 204 (No Content)
+
++ Response 404 (text/plain)
+
+        Reservation not Found
+
+### Add Reservation [POST]
 Updates the fields of the reservation table and returns the entire reservation object.
 
 + Request (application/json)
@@ -52,15 +124,206 @@ Updates the fields of the reservation table and returns the entire reservation o
             "...": ""
         }
 
++ Response 204 (No Content)
+
+### Add Host to Reservation [POST]
+Links several Hosts with a reservation.
+
++ Parameters
+
+    + idReservation - Reservation ID.
+    + addHost - Flag which allow to send an array of hosts ides to a reservation.
+
++ Request (application/json)
+
+    [ 1, 2, 5 ]
+
++ Response 204 (No Content)
++ Response 500
+
+        Internal Server Error
+
+### Assign Room to a Reservation [POST]
+Links a room with a reservation and marks it as BUSY.
+
++ Parameters
+
+    + idReservation - Reservation ID.
+    + assignRoom - Flag which allow to send an array of rooms ides to a reservation.
+
++ Request (application/json)
+
+    [ 1, 2, 5 ]
+
++ Response 204 (No Content)
++ Response 500
+
+        Internal Server Error
+        
+### Get Hosts from Reservation [GET]
+Return all the hosts assigned to a reservation.
+
++ Parameters
+
+    + idReservation - Reservation ID or DNI of the client.
+    + hosts - flag to get all hosts as a response.
+    
 + Response 200 (application/json)
 
+        [
+            {   
+                "ID": 1,
+                "NAME": "nuevo1",
+                "DNI": "5655675M",
+                "BIRTHDATE": "1998-01-02T23:00:00.000Z"
+            },
+                    ...
+            {
+                "ID": 4,
+                "NAME": "nuevo2",
+                "DNI": "5655175A",
+                "BIRTHDATE": "1998-01-02T23:00:00.000Z"
+            }
+        ]
+   
+        
++ Response 404 (text/plain)
 
-## Room [/room/{?idRoom}]
+        Reservation not found.
 
-  
+
+
+## Client [/clients/{?idClient}]
+
+### Get all Clients [GET]
+Return the information of all the clients.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 1,
+                "NAME": "Carles",
+                "SURNAME": "Garcia-Cabrera",
+                "DNI": "1234",
+                "MAIL": "carles@gmail.com",
+                "PHONE": "667789865",
+                "BIRTHDATE": "20/10/1992"
+            },
+                ...
+            {
+                "id": 2,
+                "NAME": "Marina",
+                "SURNAME": "Alonso",
+                "DNI": "44777666W",
+                "MAIL": "marina@alonso.cat",
+                "PHONE": "654789023",
+                "BIRTHDATE": "22/06/1995"
+            }
+        ]
+
+        
++ Response 500 (text/plain)
+
+        Internal Server Error
+
+### Get Client info [GET]
+Return client info.
+
++ Parameters
+
+    + idClient - ID of the client.
+    
++ Response 200 (application/json)
+
+        {
+            "id": 1,
+            "NAME": "Carles",
+            "SURNAME": "Garcia-Cabrera",
+            "DNI": "1234",
+            "MAIL": "carles@gmail.com",
+            "PHONE": "667789865",
+            "BIRTHDATE": "20/10/1992"
+        }
+
+        
++ Response 404 (text/plain)
+
+        Client not found.
+
+### Update Client [POST]
+Updates the fields of the client table.
+
++ Parameters
+    + idClient - ID of the client.
+    
++ Request (application/json)
+
+        {
+            "PHONE": "...",
+            "BIRTHDATE": "...",
+                 ...
+        }
+
++ Response 204 (No Content)
+
++ Response 404 (text/plain)
+
+        Client not Found
+
+### Add Client [POST]
+Add a client to the client table.
+
++ Request (application/json)
+
+        {
+            "NAME": "Carles",
+            "SURNAME": "Garcia-Cabrera",
+            "DNI": "1234",
+            "MAIL": "carles@gmail.com",
+            "PHONE": "667789865",
+            "BIRTHDATE": "20/10/1992"
+        }
+
++ Response 204 (No Content)
+
+
++ Response 500 (text/plain)
+
+        Internal Server Error
+
+
+
+## Room [/rooms/{?idRoom}{?free}]
+
+### Get all Rooms[GET]
+GET all the rooms.
+        
++ Response 201 (application/json)
+
+        {   { "ID":"ID",
+              "SIZE": "",
+              "BUSY": False
+            },
+            { "ID":"ID",
+              "SIZE": "",
+              "BUSY": True
+            },
+            {
+              "...": ""
+            }
+        }
+        
++ Response 404 (text/plain)
+
+        The system was unable to retrieve ROOMS.
+        
 ### Get Empty Rooms[GET]
 GET the different empty rooms.
-        
+
++ Parameters
+    + free - Flag to retrieve just the empty rooms.
+
 + Response 201 (application/json)
 
         {   { "ID":"ID",
@@ -80,28 +343,29 @@ GET the different empty rooms.
 
         The system was unable to retrieve ROOMS.
 
-### Assign Room [POST]
-Assigns a room to a reservation and marks it as a busy room.
+### Get Room[GET]
+GET the info of a room.
 
-+ Request (application/json)
++ Parameters
+    + idRoom - ID of the room.
 
-        {
-            "IDROOM": "ID",
-            "IDRESERVATION": "ID"
++ Response 201 (application/json)
+
+        { "ID":"ID",
+          "SIZE": "",
+          "BUSY": False
         }
-        
-+ Response 201 (text/plain)
         
 + Response 404 (text/plain)
 
-        The system was unable to assign the room.
+        The system was unable to retrieve the ROOM.
 
-### Free a Room [PUT]
-Frees a room.
+### Update Room [POST]
+Updates any parameter of a room. Useful to free a room for example.
 
 + Parameters
 
-    + idRoom - id of the room to free.
+    + idRoom - id of the room to modify.
 
 + Request (application/json)
 
@@ -109,15 +373,41 @@ Frees a room.
             "BUSY": False
         }
         
-+ Response 201 (text/plain)
++ Response 204 (No content)
         
 + Response 404 (text/plain)
 
         The system was unable to free the room.
-        
+    
 
 
 ## Host [/host/{?DNI}]
+
+### Get all Hosts[GET]
+GET all the hosts.
+        
++ Response 201 (application/json)
+
+        [   {
+                "ID": 1,
+                "NAME": "nuevo1",
+                "DNI": "5655675M",
+                "BIRTHDATE": "1998-01-02T23:00:00.000Z"
+            },
+            {
+                "ID": 2,
+                "NAME": "HOST",
+                "DNI": "63637",
+                "BIRTHDATE": null
+            },
+            {
+              "...": ""
+            }
+        ]
+        
++ Response 404 (text/plain)
+
+        The system was unable to retrieve hosts.
 
 ### Get Host By DNI[GET]
 GET the info of the HOST in it exists in the DB, else return null.
@@ -154,23 +444,22 @@ Post the info of the new HOST in the DB.
 + Response 404 (text/plain)
 
         The system was unable to add the HOST.
-    
-    
-    
-## Assign Host [/assignHost/{idReservation}]
 
-### Assign Host/s To Reservation[POST]
-GET the info of the HOST in it exists in the DB, else return null.
+### Update Host [POST]
+Updates any parameter of a host.
 
 + Parameters
 
-    + idReservation - id of the reservation.
-        
-+ Response 201 (application/json)
+    + DNI - DNI of the HOST
 
-        {   "host_ides": ["id1","id2", ...]
++ Request (application/json)
+
+        {
+            "BIRTHDATE": "1998-01-03"
         }
+        
++ Response 204 (No content)
         
 + Response 404 (text/plain)
 
-        The system was unable to assign HOST/S.
+        The system was unable to free the room.
