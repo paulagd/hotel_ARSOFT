@@ -5,6 +5,31 @@ HOST: https://api.arsofthotel.tk/
 
 Polls is a simple API allowing consumers to view polls and vote in them.
 
+## Login [/login]
+
+### Get Authorization token [POST]
+
++ Request (application/json)
+
+        {
+            "type": "password",
+            "password": "8c4205ec33d8f6caeaaaa0c10a14138c",
+            "email": "adri@gmail.com"
+        }
+
++ Response 201 (application/json)
+
+    {
+        "token": "token",
+        "exp": "expiration time",
+        "refreshToken": "token to login"
+    }
+
+
++ Response 401 (text/plain)
+
+    PASSWORD incorrect.
+
 
 ## Reservation [/bookings/{?idReservation}{?addHost}{?assignRoom}{?hosts}]
 
@@ -94,6 +119,12 @@ Return reservation info as well as the client info and all the hosts info associ
                     "DNI": "5655175A",
                     "BIRTHDATE": "1998-01-02T23:00:00.000Z"
                 }
+            ],
+            "rooms": [
+                {
+                    "ID": "ID",
+                    "SIZE": "SIZE"
+                }
             ]
         }
 
@@ -171,7 +202,6 @@ Links a room with a reservation and marks it as BUSY.
 + Parameters
 
     + idReservation - Reservation ID.
-    + assignRoom - Flag which allow to send an array of rooms ides to a reservation.
 
 + Request (application/json)
 
