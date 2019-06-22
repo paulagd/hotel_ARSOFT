@@ -10,6 +10,11 @@ Polls is a simple API allowing consumers to view polls and vote in them.
 
 ### Get all Reservations [GET]
 Return all the reservations info.
++ Request
+
+    + Headers
+
+        Authorization: Bearer token
 
 + Response 200 (application/json)
 
@@ -44,6 +49,11 @@ Return all the reservations info.
 
 ### Get Reservation info [GET]
 Return reservation info as well as the client info and all the hosts info associated to the reservation.
++ Request
+
+    + Headers
+
+        Authorization: Bearer token
 
 + Parameters
 
@@ -94,6 +104,9 @@ Return reservation info as well as the client info and all the hosts info associ
 
 ### Update Reservation [POST]
 Updates the fields of the reservation table.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 
@@ -115,9 +128,12 @@ Updates the fields of the reservation table.
 
 ### Add Reservation [POST]
 Updates the fields of the reservation table and returns the entire reservation object.
-
 + Request (application/json)
+    + Headers
 
+        Authorization: Bearer token
+
+    + Body
         {
             "DEBT": "",
             "STATUS": "",
@@ -128,6 +144,9 @@ Updates the fields of the reservation table and returns the entire reservation o
 
 ### Add Host to Reservation [POST]
 Links several Hosts with a reservation.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 
@@ -145,6 +164,9 @@ Links several Hosts with a reservation.
 
 ### Assign Room to a Reservation [POST]
 Links a room with a reservation and marks it as BUSY.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 
@@ -162,6 +184,9 @@ Links a room with a reservation and marks it as BUSY.
         
 ### Get Hosts from Reservation [GET]
 Return all the hosts assigned to a reservation.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 
@@ -197,6 +222,9 @@ Return all the hosts assigned to a reservation.
 
 ### Get all Clients [GET]
 Return the information of all the clients.
++ Headers
+
+    Authorization: Bearer token
 
 + Response 200 (application/json)
 
@@ -229,6 +257,9 @@ Return the information of all the clients.
 
 ### Get Client info [GET]
 Return client info.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 
@@ -253,6 +284,9 @@ Return client info.
 
 ### Update Client [POST]
 Updates the fields of the client table.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
     + idClient - ID of the client.
@@ -273,6 +307,9 @@ Updates the fields of the client table.
 
 ### Add Client [POST]
 Add a client to the client table.
++ Headers
+
+    Authorization: Bearer token
 
 + Request (application/json)
 
@@ -298,7 +335,10 @@ Add a client to the client table.
 
 ### Get all Rooms[GET]
 GET all the rooms.
-        
++ Headers
+
+    Authorization: Bearer token
+
 + Response 201 (application/json)
 
         {   { "ID":"ID",
@@ -320,6 +360,9 @@ GET all the rooms.
         
 ### Get Empty Rooms[GET]
 GET the different empty rooms.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
     + free - Flag to retrieve just the empty rooms.
@@ -345,6 +388,9 @@ GET the different empty rooms.
 
 ### Get Room[GET]
 GET the info of a room.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
     + idRoom - ID of the room.
@@ -362,6 +408,9 @@ GET the info of a room.
 
 ### Update Room [POST]
 Updates any parameter of a room. Useful to free a room for example.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 
@@ -385,7 +434,10 @@ Updates any parameter of a room. Useful to free a room for example.
 
 ### Get all Hosts[GET]
 GET all the hosts.
-        
++ Headers
+
+    Authorization: Bearer token
+
 + Response 201 (application/json)
 
         [   {
@@ -411,6 +463,9 @@ GET all the hosts.
 
 ### Get Host By DNI[GET]
 GET the info of the HOST in it exists in the DB, else return null.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 
@@ -430,6 +485,9 @@ GET the info of the HOST in it exists in the DB, else return null.
         
 ### Add Host [POST]
 Post the info of the new HOST in the DB.
++ Headers
+
+    Authorization: Bearer token
 
 + Request (application/json)
 
@@ -447,6 +505,9 @@ Post the info of the new HOST in the DB.
 
 ### Update Host [POST]
 Updates any parameter of a host.
++ Headers
+
+    Authorization: Bearer token
 
 + Parameters
 

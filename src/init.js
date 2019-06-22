@@ -1,7 +1,9 @@
 import express from "express";
 //import expressWs from "express-ws";
+import {config} from 'dotenv';
+config();
 
-const app = express();
+const init = express();
 //expressWs(app);
 
-export default app;
+export default init;

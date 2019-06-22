@@ -3,14 +3,12 @@ import { getBookings, getBooking, updateBooking, addBooking, addHost2Reservation
 
 let router = express.Router();
 
-router.get('', getBookings);
-router.post('', addBooking);
+router.get('/', getBookings);
+router.post('/', addBooking);
 router.get('/:id', getBooking);
 router.post('/:id', updateBooking);
 router.post('/:id/addHost', addHost2Reservation);
 router.post('/:id/assignRoom', assignRoom2Reservation);
 router.get('/:id/hosts', getHostsFromBooking);
-// router.get('/:id/hosts', getHostsBooking);
 
 export default router;
-  

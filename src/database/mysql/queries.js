@@ -1,4 +1,4 @@
-import db from './db';
+import db from './connection';
 import {each} from "async";
 
 //BOOKING
@@ -123,56 +123,6 @@ export const updateClient = (id, client, callback) => {
         } else
             callback(false, results.affectedRows);
     });
-};
-
-// EMPLOYEE
-export const getEmployee = (id, callback) => {
-// Devuelve info de la tabla CLIENT y la tabla RESERVA en funcion de la id,
-// que puede ser el DNI del cliente o el localizador (id) de la reserva.
-    db.query(`SELECT * from EMPLOYEE where ID = ${id}`, (error, results, fields) => {
-        if (error) callback(true, null);
-        else
-            callback(false, results[0]);
-    });
-};
-
-export const getEmployees = (callback) => {
-// Devuelve info de la tabla CLIENT y la tabla RESERVA en funcion de la id,
-// que puede ser el DNI del cliente o el localizador (id) de la reserva.
-    db.query('SELECT * from EMPLOYEE', (error, results, fields) => {
-        if (error) callback(true, null);
-        else
-            callback(false, results);
-    });
-};
-
-export const registration = (data, callback) => {
-    db.query(`INSERT INTO EMPLOYEE SET ?`,  data, (error, results, fields) => {
-        if(error && error.code == 'ER_DUP_ENTRY')
-            callback(true, {msg: 'User already taken'})
-        // INSERT INTO `hotel`.`EMPLOYEE` (`NAME`, `DNI`, `IBAN`, `PASSWORD`) VALUES ('Adri', '12345678M', 'ES763364744', 'holi');
-        else if (error) {
-            callback(true, {code: 500});
-        } else
-            callback(false, results.affectedRows);
-    });
-
-};
-
-export const login = (data, callback) => {
-    var email = data.EMAIL;
-    var pass = data.PASSWORD;
-    db.query(`SELECT * from EMPLOYEE WHERE EMAIL = '${email}' `,  null, (error, results, fields) => {
-        if (error) {
-            callback(true, {code: 500});
-        } else {
-            if (results && results[0] && results[0].PASSWORD == pass)
-                callback(false, results[0]);
-            else
-                callback(true, {msg: 'PASSWORD is incorrect.'});
-        }
-    });
-
 };
 
 // HOST

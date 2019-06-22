@@ -1,3 +1,3 @@
-import employeeController from './employee'
+import employeeController from './router'
 
 export { employeeController };
