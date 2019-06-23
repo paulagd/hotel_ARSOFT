@@ -42,12 +42,21 @@ export const getBooking = (req, res) => {
                         callback(null, {hosts: hostsEntity});
                     }
                 });
-            }
+            },
+            rooms: callback => {
+                SQL_REQUEST.getRoomsFromReservation(req.params.id, (error, rooms) => {
+                    if (error)
+                        callback(true, 404);
+                    else {
+                        callback(null, {rooms: rooms});
+                    }
+                });
+            },
         }, (err, results) =>{
             if (err)
                 res.sendStatus(500);
             else{
-                res.status(200).send(Object.assign(results.booking, results.all_hosts))
+                res.status(200).send(Object.assign(results.booking, results.all_hosts, results.rooms))
             }
         });
 };

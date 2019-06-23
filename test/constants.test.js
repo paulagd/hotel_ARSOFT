@@ -24,5 +24,24 @@ export const bookingEntity = {
             {ID: 1, NAME: 'nuevo1', DNI: '5655675M', BIRTHDATE: '1998-01-02T23:00:00.000Z'},
             {ID: 2, NAME: 'HOST', DNI: '63637', BIRTHDATE: null},
             {ID: 4, NAME: 'nuevo2', DNI: '5655175A', BIRTHDATE: '1998-01-02T23:00:00.000Z'}
-        ]
+        ],
+    rooms: [
+        {
+            ID: 1,
+            SIZE: "DOUBLE"
+        },
+        {
+            ID: 2,
+            SIZE: "SINGLE"
+        }
+    ]
+};
+
+export const bookingInsert = {
+    IDCLIENT: 2,
+    CHECKIN: '2019-03-24 23:00:00.000',
+    CHECKOUT: '2019-03-27 23:00:00.000',
+    IMPORT: 200,
+    DEBT: 100,
+    STATUS: 'OPEN',
 };

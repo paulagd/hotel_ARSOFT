@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "mocha --require @babel/register --exit",
-    "start": "node setup.js development && nodemon --exec babel-node src/app.js"
+    "production": "node --require @babel/register src/app.js",
+    "production_env": "node setup.js production",
+    "start": "node setup.js development && nodemon --exec babel-node src/app.js",
+    "image": "npm run production_env && docker build -t main.server:5000/$npm_package_name ./ && docker push main.server:5000/$npm_package_name"
   },
   "repository": {
     "type": "git",

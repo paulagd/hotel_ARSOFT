@@ -32,9 +32,9 @@ export const getBookings = (callback) => {
 export const addBooking = (booking, callback) => {
     db.query(`INSERT INTO RESERVATION SET ?`, booking, (error, results, fields) => {
         if (error) {
-            callback(true);
+            callback(true, error);
         } else
-            callback(false, results.affectedRows);
+            callback(false, results.insertId);
     });
 };
 
@@ -84,6 +84,18 @@ export const assignRoom2Reservation = (id, body, callback) => {
         else
             callback(false);
     });
+};
+
+
+export const getRoomsFromReservation = (id, callback) => {
+    db.query(`SELECT ID, SIZE FROM ROOM where ID in (SELECT IDROOM FROM RESERVATION_ROOM where IDRESERVATION = ${id})`,
+        (error, results, fields) => {
+            if (error) {
+                callback(true);
+            } else {
+                callback(false, results);
+            }
+        });
 };
 
 // CLIENT
