@@ -28,8 +28,10 @@ export const login = (req, res) => {
                 if (error)
                     if (entityClient.msg)
                         res.status(401).send(entityClient.msg);
-                    else
+                    else {
+                        console.log(entityClient, JSON.stringify(entityClient));
                         res.sendStatus(500);
+                    }
                 else
                     return res.status(201).send(createToken(entityClient));
             });

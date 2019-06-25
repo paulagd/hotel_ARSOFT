@@ -12,6 +12,10 @@ import * as employee from './routes/employee';
 
 const PORT = process.env.PORT;
 
+app.use(logger('combined', {
+    skip: (req, res) => res.statusCode < 400
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
@@ -22,17 +26,13 @@ app.use('/hosts', [auth, host.hostController]);
 app.use('/rooms', [auth, room.roomController]);
 app.use('/employee', [auth, employee.employeeController]);
 
-app.use(logger('short', {
-    skip: (req, res) => res.statusCode < 400
-}));
-
 app.use((req, res) => {
     res.status(404);
     res.send('Not Found');
 });
 
 app.use((err, req, res, next) => {
-    console.log(err);
+    console.log(err, JSON.stringify(err));
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development.env' ? err : {};
 
