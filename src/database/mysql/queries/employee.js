@@ -1,4 +1,4 @@
-import db from "../connection";
+import db from "../conector";
 
 /**
  * Devuelve info de la tabla CLIENT y la tabla RESERVA en funcion de la id,

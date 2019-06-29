@@ -10,6 +10,10 @@ import * as  host from './routes/host';
 import * as  room from './routes/room';
 import * as employee from './routes/employee';
 
+import {handleDisconnect} from "./database/mysql/conector";
+
+handleDisconnect();
+
 const PORT = process.env.PORT;
 
 app.use(logger('combined', {

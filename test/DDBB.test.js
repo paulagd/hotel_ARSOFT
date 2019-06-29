@@ -7,7 +7,7 @@ import './init.test';
 
 import * as SQL_REQUEST from '../src/database/mysql/queries';
 import {bookingInsert} from "./constants.test";
-import db from '../src/database/mysql/connection';
+import db from '../src/database/mysql/conector';
 
 const expect = chai.expect;
 const assert = chai.assert;

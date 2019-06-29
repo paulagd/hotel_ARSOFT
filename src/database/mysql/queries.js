@@ -1,4 +1,4 @@
-import db from './connection';
+import db from './conector';
 import {each} from "async";
 
 //BOOKING
